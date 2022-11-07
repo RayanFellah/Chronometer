@@ -1,0 +1,64 @@
+body {
+    background-color:aliceblue;
+}
+
+div#timer-container {
+    text-align: center;
+    display:inline-block;
+    margin-left: 40%;
+    margin-top: 2%;
+}
+
+div#time {
+    border: 2px solid black;
+    border-radius: 15px;
+    height: 90px;
+    width: 350px;
+    font-size: 500%;
+    flex-direction: column;
+}
+
+div.Buttons {
+    display: flex;
+}
+
+div.Buttons button {
+    height: 37px;
+    border-radius: 10px;
+    font-size: 25px;
+    color: white;
+}
+div.Buttons button:hover {
+    cursor: pointer;
+}
+
+div.Buttons div {
+    flex-direction: column;
+    margin-left: 10%;
+    margin-top: 1%;
+}
+
+div.Buttons button#start {
+    background-color: rgb(22, 219, 22);
+    font-size: 25px;
+}
+
+div.Buttons button#start:hover:enabled {
+    background-color: rgb(0, 255, 0);
+}
+
+div.Buttons button#stop {
+    background-color: red;
+}
+
+div.Buttons button#stop:hover {
+    background-color: rgb(222, 4, 4);
+}
+
+div.Buttons button#reset {
+    background-color: grey;
+}
+
+div.Buttons button#reset:hover {
+    background-color: rgb(109, 109, 109)
+}
