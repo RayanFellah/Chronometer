@@ -1,67 +1,46 @@
 import timerLogic from "./timerLogic.js"
 class TimeManager {
-    constructor() {
-        this.seconds = 0;
-        this.minutes = 0;
-        this.hours = 0;
+    constructor(timerLogic) {
+        this.seconds = 0, this.minutes = 0, this.hours = 0;
+        this.timerLogic_ = timerLogic;
     }
 
     interval = null;
     startButton = document.getElementById("start");
     stopButton = document.getElementById("stop");
     resetButton = document.getElementById("reset");
+    lapButton = document.getElementById("lap");
+    #resetTime() {
+        this.seconds = 0;
+        this.minutes = 0;
+        this.hours = 0;
+    }
 
     displayTime() {
         let time = document.getElementById("time")
-        time.textContent = `${this.hoursUpdate()}:${this.minutesUpdate()}:${this.secondsUpdate()}`;
-        if(this.hoursUpdate().toString().length >= 4) {
+        time.textContent = `${this.timerLogic_.hoursUpdate(this.hours, this.seconds)}:${this.timerLogic_.minutesUpdate
+            (this.minutes, this.seconds)}:${this.timerLogic_.secondsUpdate(this.seconds)}`;
+        if(this.timerLogic_.hoursUpdate(this.hours, this.seconds).toString().length >= 4) {
             clearInterval(this.interval);
             this.stopButton.disabled = true;
         }
     }
 
-    secondsUpdate() {
-        let secondsDisplay = this.seconds % 60;
-        if((this.seconds % 60) < 10) {
-            secondsDisplay = '0' + (this.seconds % 60);
-        }
-        return secondsDisplay;
-    }
-
-    minutesUpdate() {
-        let minutesDisplay = this.minutes;
-        this.minutes = Math.floor(this.seconds / 60);
-        if((this.minutes % 60) < 10) {
-            minutesDisplay = '0' + (this.minutes % 60);
-        }
-        else {
-            minutesDisplay = this.minutes % 60;
-        }
-        return minutesDisplay;
-    }
-
-    hoursUpdate() {
-        let hoursDisplay = this.hours;
-        this.hours = Math.floor(this.seconds / 3600);
-        if(this.hours < 10) {
-            hoursDisplay = '0' + this.hours;
-        }
-        return hoursDisplay;
-    }
-
     start() {
-        this.startButton.addEventListener('click', (e)=>{
-            this.startButton.disabled = true;
+        this.startButton.addEventListener('click', (e) => {
+            this.startButton.hidden = true;         // je cache le bouton
+            this.lapButton.hidden = false;
             this.interval = setInterval((e)=>{ 
-                this.seconds++;
+                this.seconds+=200;
                 this.displayTime();
             }, 1000);
         }, false);
     }
 
     stop() {
-        this.stopButton.addEventListener('click', ()=>{
-            this.startButton.disabled = false;
+        this.stopButton.addEventListener('click', () => {
+            this.startButton.hidden = false;
+            this.lapButton.hidden = true;
             clearInterval(this.interval);
             this.displayTime();
         });
@@ -69,27 +48,38 @@ class TimeManager {
 
     reset() {
         this.resetButton.addEventListener('click', () => {
-            this.startButton.disabled = false;
+            this.startButton.hidden = false;
+            this.lapButton.hidden = true;
             if(this.stopButton.disabled == true) {
                 this.stopButton.disabled = false;
             }
-            this.seconds = 0;
-            this.minutes = 0;
-            this.hours = 0;
+            this.#resetTime();
             this.displayTime();
             clearInterval(this.interval);
+            document.getElementById("lap-container").innerHTML = "";
         });
     }
 
+    lap() {
+        this.lapButton.addEventListener("click", () => {
+            const lapsContainer = document.getElementById("lap-container");
+            const lap = document.createElement("p");
+            lap.textContent = `${this.timerLogic_.hoursUpdate(this.hours, this.seconds)}:${this.timerLogic_.minutesUpdate
+                                (this.minutes, this.seconds)}:${this.timerLogic_.secondsUpdate(this.seconds)}`;
+            lapsContainer.appendChild(lap);
+            document.body.appendChild(lapsContainer);
+        })
+    }
     activate() {
         this.displayTime();
         this.start();
         this.stop();
         this.reset();
+        this.lap();
     }        
 }
 
 window.onload = () => {
-    const timeManager = new TimeManager();
+    const timeManager = new TimeManager(new timerLogic);
     timeManager.activate();
 }

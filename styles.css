@@ -62,3 +62,10 @@ div.Buttons button#reset {
 div.Buttons button#reset:hover {
     background-color: rgb(109, 109, 109)
 }
+
+div.Buttons button#lap {
+    background-color: rgb(156, 156, 0)
+}
+div.Buttons button#lap:hover {
+    background-color: yellow;
+}

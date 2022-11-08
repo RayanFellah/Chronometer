@@ -7,7 +7,7 @@ export default class timerLogic {
         return secondsDisplay;
     }
 
-    minutesUpdate(seconds, minutes) {
+    minutesUpdate(minutes, seconds) {
         let minutesDisplay = minutes;
         minutes = Math.floor(seconds / 60);
         if((minutes % 60) < 10) {
@@ -27,5 +27,4 @@ export default class timerLogic {
         }
         return hoursDisplay;
     }
-    
 }
