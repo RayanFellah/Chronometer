@@ -2,6 +2,12 @@ body {
     background-color:aliceblue;
 }
 
+h1#title {
+    text-align: center;
+    font-size: 80px;
+
+}
+
 div#timer-container {
     text-align: center;
     display:inline-block;
@@ -13,7 +19,7 @@ div#time {
     border: 2px solid black;
     border-radius: 15px;
     height: 90px;
-    width: 350px;
+    width: 460px;
     font-size: 500%;
     flex-direction: column;
 }
@@ -34,7 +40,7 @@ div.Buttons button:hover {
 
 div.Buttons div {
     flex-direction: column;
-    margin-left: 10%;
+    margin-left: 13%;
     margin-top: 1%;
 }
 
@@ -62,7 +68,6 @@ div.Buttons button#reset {
 div.Buttons button#reset:hover {
     background-color: rgb(109, 109, 109)
 }
-
 div.Buttons button#lap {
     background-color: rgb(156, 156, 0)
 }

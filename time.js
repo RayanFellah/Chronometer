@@ -1,7 +1,6 @@
 import timerLogic from "./timerLogic.js"
 class TimeManager {
     constructor(timerLogic) {
-        this.seconds = 0, this.minutes = 0, this.hours = 0;
         this.timerLogic_ = timerLogic;
     }
 
@@ -10,17 +9,23 @@ class TimeManager {
     stopButton = document.getElementById("stop");
     resetButton = document.getElementById("reset");
     lapButton = document.getElementById("lap");
+
     #resetTime() {
-        this.seconds = 0;
-        this.minutes = 0;
-        this.hours = 0;
+        this.timerLogic_.ms = 0;
+    }
+
+    hiddenElement() {
+        let time = document.getElementById("time");
+        const spanMS = document.createElement("span");
+        spanMS.textContent = ".00";
+        time.appendChild(spanMS);
+        document.body.appendChild(time);
     }
 
     displayTime() {
         let time = document.getElementById("time")
-        time.textContent = `${this.timerLogic_.hoursUpdate(this.hours, this.seconds)}:${this.timerLogic_.minutesUpdate
-            (this.minutes, this.seconds)}:${this.timerLogic_.secondsUpdate(this.seconds)}`;
-        if(this.timerLogic_.hoursUpdate(this.hours, this.seconds).toString().length >= 4) {
+        time.textContent = `${this.timerLogic_.hoursUpdate()}:${this.timerLogic_.minutesUpdate()}:${this.timerLogic_.secondsUpdate()}.${this.timerLogic_.msUpdate()}`;
+        if(this.timerLogic_.hoursUpdate().toString().length >= 4) {
             clearInterval(this.interval);
             this.stopButton.disabled = true;
         }
@@ -30,10 +35,11 @@ class TimeManager {
         this.startButton.addEventListener('click', (e) => {
             this.startButton.hidden = true;         // je cache le bouton
             this.lapButton.hidden = false;
-            this.interval = setInterval((e)=>{ 
-                this.seconds+=200;
+            this.interval = setInterval((e)=>{
+                // this.timerLogic_.seconds = this.timerLogic_.ms / 1000; 
                 this.displayTime();
-            }, 1000);
+                this.timerLogic_.ms+= 1;
+            }, 10);
         }, false);
     }
 
@@ -64,8 +70,10 @@ class TimeManager {
         this.lapButton.addEventListener("click", () => {
             const lapsContainer = document.getElementById("lap-container");
             const lap = document.createElement("p");
-            lap.textContent = `${this.timerLogic_.hoursUpdate(this.hours, this.seconds)}:${this.timerLogic_.minutesUpdate
-                                (this.minutes, this.seconds)}:${this.timerLogic_.secondsUpdate(this.seconds)}`;
+            const removeLapButton = document.createElement("button");
+            removeLapButton.setAttribute("id", "remove-lap-button")         // a continuer
+            lap.textContent = `${this.timerLogic_.hoursUpdate()}:${this.timerLogic_.minutesUpdate()}:
+                               ${this.timerLogic_.secondsUpdate()}.${this.timerLogic_.msUpdate()}`;
             lapsContainer.appendChild(lap);
             document.body.appendChild(lapsContainer);
         })
